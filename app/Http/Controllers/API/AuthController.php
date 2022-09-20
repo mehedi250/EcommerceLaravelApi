@@ -31,11 +31,47 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
-        $token = $user->createToken('ecommarceToken')->plainTextToken;
+        $token = $user->createToken($user->email . '_token')->plainTextToken;
 
         return response()->json([
             'success' => true,
-            'message' => 'Registered successfully',
+            'message' => 'Registered Successfully',
+            'username' => $user->name,
+            'token' => $token
+        ]);
+
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'bail|required|email',
+            'password' => 'bail|required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+                'status' => 'validation-error'
+            ]);
+        }
+
+        $user = User::where('email', $request->email)->first();
+ 
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Credentials',
+                'status' => 'error'
+            ]);
+        }
+
+        $token = $user->createToken($user->email . '_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged in Successfully',
             'username' => $user->name,
             'token' => $token
         ]);
