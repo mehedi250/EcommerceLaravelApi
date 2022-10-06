@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,5 +78,13 @@ class AuthController extends Controller
         ]);
 
 
+    }
+
+    public function logout(){
+        auth()->user()->tokens()->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged Out Successfully',
+        ]);
     }
 }
