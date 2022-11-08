@@ -13,7 +13,9 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group( function(){
     });
 
     Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\API'], function(){
-        Route::post('catagory-store', 'CategoryController@store');
+        Route::post('category-list', 'CategoryController@index');
+        Route::post('category-store', 'CategoryController@store');
+        Route::post('category-update', 'CategoryController@update');
     });
    
 });
