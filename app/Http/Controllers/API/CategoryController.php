@@ -19,7 +19,15 @@ class CategoryController extends Controller
 
     public function index()
     {
-        //
+        $response = $this->categoryRepository->getAll();
+
+        if($response){
+            return response()->json([
+                'data' => $response,
+                'success' => true,
+                'status' => 'success'
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -48,21 +56,67 @@ class CategoryController extends Controller
             'status' => Category::STATUS_ACTIVE
         ];
 
-        $response = $this->categoryRepository->insert($data);
+        try {
+            $response = $this->categoryRepository->insert($data);
 
-        if($response){
+            if($response){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category Insert Successfuly',
+                    'status' => 'success'
+                ]);
+            }
+        }catch (\Throwable $th) {
             return response()->json([
-                'success' => true,
-                'message' => 'Category Insert Successfuly',
-                'status' => 'success'
+                'message' => 'Something went wrong!',
+                'status' => false
             ]);
         }
 
     }
 
-    public function update(Request $request, Catagory $catagory)
+    public function update(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'slug' => 'bail|required|max:191',
+            'name' => 'bail|required|max:191',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->messages(),
+                'status' => 'validation-error'
+            ]);
+        }
+
+        $data = [
+            'slug' => $request->slug,
+            'name' => $request->name,
+            'description' => $request->description,
+            'meta_title' => $request->meta_title,
+            'meta_keywords' => $request->meta_keywords,
+            'meta_description' => $request->meta_description,
+            'status' => Category::STATUS_ACTIVE
+        ];
+
+        try {
+            $response = $this->categoryRepository->update($reques->id, $data);
+
+            if($response){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category Update Successfuly',
+                    'status' => 'success'
+                ]);
+            }
+        }catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Something went wrong!',
+                'status' => false
+            ]);
+        }
     }
 
 
