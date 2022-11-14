@@ -120,8 +120,22 @@ class CategoryController extends Controller
     }
 
 
-    public function destroy(Catagory $catagory)
+    public function destroy($id)
     {
-        //
+        try {
+            $response = $this->categoryRepository->delete($id);
+            if($response){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category Deleted Successfuly',
+                    'status' => 'success'
+                ]);
+            }
+        }catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Something went wrong!',
+                'status' => false
+            ]);
+        }
     }
 }
