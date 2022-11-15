@@ -26,6 +26,7 @@ class CategoryRepositoryEloquent implements CategoryRepository{
         return Category::where('id', $id)->first();
     }
 
+
     public function delete($id)
     {
         return Category::where('id', $id)->delete();
