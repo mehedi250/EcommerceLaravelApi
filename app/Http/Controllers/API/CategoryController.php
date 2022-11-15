@@ -30,6 +30,19 @@ class CategoryController extends Controller
         }
     }
 
+    public function find($id)
+    {
+        $response = $this->categoryRepository->getById($id);
+
+        if($response){
+            return response()->json([
+                'data' => $response,
+                'success' => true,
+                'status' => 'success'
+            ]);
+        }
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
