@@ -88,7 +88,7 @@ class CategoryController extends Controller
 
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'slug' => 'bail|required|max:191',
@@ -115,7 +115,7 @@ class CategoryController extends Controller
         ];
 
         try {
-            $response = $this->categoryRepository->update($reques->id, $data);
+            $response = $this->categoryRepository->update($id, $data);
 
             if($response){
                 return response()->json([
