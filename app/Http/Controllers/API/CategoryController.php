@@ -66,7 +66,7 @@ class CategoryController extends Controller
             'meta_title' => $request->meta_title,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
-            'status' => Category::STATUS_ACTIVE
+            'status' => $request->status == true ? '1':'0'
         ];
 
         try {
@@ -111,7 +111,7 @@ class CategoryController extends Controller
             'meta_title' => $request->meta_title,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
-            'status' => Category::STATUS_ACTIVE
+            'status' => $request->status == true ? '1':'0'
         ];
 
         try {
