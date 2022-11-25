@@ -40,6 +40,12 @@ class CategoryController extends Controller
                 'success' => true,
                 'status' => 'success'
             ]);
+        }else{
+            return response()->json([
+                'message' => 'Category Not Found!',
+                'success' => false,
+                'status' => 'error'
+            ]);
         }
     }
 
