@@ -21,6 +21,11 @@ class CategoryRepositoryEloquent implements CategoryRepository{
         return Category::all();
     }
 
+    public function countCategory()
+    {
+        return Category::where('status', Category::STATUS_ACTIVE)->count();
+    }
+
     public function getById($id)
     {
         return Category::where('id', $id)->first();
@@ -29,6 +34,11 @@ class CategoryRepositoryEloquent implements CategoryRepository{
     public function delete($id)
     {
         return Category::where('id', $id)->delete();
+    }
+
+    public function getByWhere($column=['*'], $where)
+    {
+        return Category::select($column)->where($where)->get();
     }
 
 }

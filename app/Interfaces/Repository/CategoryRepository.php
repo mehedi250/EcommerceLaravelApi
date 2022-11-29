@@ -7,6 +7,8 @@ interface CategoryRepository
 {
     public function getAll();
 
+    public function countCategory();
+
     public function getById($id);
 
     public function insert($data);
@@ -14,4 +16,6 @@ interface CategoryRepository
     public function update($id, $data);
 
     public function delete($id);
+
+    public function getByWhere($column=['*'], $where);
 }

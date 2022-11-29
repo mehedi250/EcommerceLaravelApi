@@ -157,4 +157,17 @@ class CategoryController extends Controller
             ]);
         }
     }
+
+    public function getCategoryForDropdown()
+    {
+        $response = $this->categoryRepository->getByWhere(['id', 'name'], [['status', Category::STATUS_ACTIVE]]);
+
+        return response()->json([
+            'data' => $response,
+            'success' => true,
+            'status' => 'success'
+        ]);
+     
+
+    }
 }
