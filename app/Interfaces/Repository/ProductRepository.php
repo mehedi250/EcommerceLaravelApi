@@ -7,6 +7,8 @@ interface ProductRepository
 {
     public function getAll();
 
+    public function countProduct();
+
     public function getById($id);
 
     public function insert($data);
