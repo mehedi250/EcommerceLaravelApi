@@ -21,6 +21,10 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group( function(){
         Route::post('category/{id}', 'CategoryController@find');
         Route::post('category-dropdown-list', 'CategoryController@getCategoryForDropdown');
 
+        Route::post('product-save', 'ProductController@store');
+        Route::post('product-list', 'ProductController@index');
+        Route::post('product-details', 'ProductController@find');
+
         Route::post('dashboard-data', 'PageController@dashboardData');
 
     });
