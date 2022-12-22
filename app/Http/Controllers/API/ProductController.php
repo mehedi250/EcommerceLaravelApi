@@ -8,7 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     private $productRepository;
 
@@ -30,9 +30,9 @@ class CategoryController extends Controller
         }
     }
 
-    public function find($id)
+    public function find(Request $request)
     {
-        $response = $this->productRepository->getById($id);
+        $response = $this->productRepository->getById($request->id);
 
         if($response){
             return response()->json([
@@ -40,21 +40,27 @@ class CategoryController extends Controller
                 'success' => true,
                 'status' => 'success'
             ]);
+        }else{
+            return response()->json([
+                'data' => null,
+                'success' => true,
+                'status' => 'error'
+            ]);
         }
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category_id' => 'bail|required',
+            'category' => 'bail|required',
             'slug' => 'bail|required|max:191',
             'name' => 'bail|required|max:191',
             'meta_title' => 'bail|required|max:191',
             'brand' => 'bail|required|max:20',
             'selling_price' => 'bail|required|max:20',
             'original_price' => 'bail|required|max:20',
-            'qty' => 'bail|required|max:4',
-            'image' => 'bail|required|image|mimes:jpeg|png|jpg|max:2048',
+            'quantity' => 'bail|required|max:4',
+            'image' => 'bail|required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -66,7 +72,7 @@ class CategoryController extends Controller
         }
 
         $data = [
-            'category_id' => $request->category_id,
+            'category_id' => $request->category,
             'slug' => $request->slug,
             'name' => $request->name,
             'meta_title' => $request->meta_title,
@@ -75,10 +81,11 @@ class CategoryController extends Controller
             'brand' => $request->brand,
             'description' => $request->description,
             'original_price' => $request->original_price,
-            'qty' => $request->qty,
-            'featured' => $request->featured == true ? '1':'0',
-            'popular' => $request->popular == true ? '1':'0',
-            'status' => $request->status == true ? '1':'0'
+            'quantity' => $request->quantity,
+            'selling_price' => $request->selling_price,
+            'featured' => $request->featured,
+            'popular' => $request->popular,
+            'status' => $request->status
         ];
 
         if($request->hasFile('image')){
@@ -119,7 +126,7 @@ class CategoryController extends Controller
             'brand' => 'bail|required|max:20',
             'selling_price' => 'bail|required|max:20',
             'original_price' => 'bail|required|max:20',
-            'qty' => 'bail|required|max:4',
+            'quantity' => 'bail|required|max:4',
             'image' => 'bail|required|image|mimes:jpeg|png|jpg|max:2048',
         ]);
 
@@ -141,11 +148,13 @@ class CategoryController extends Controller
             'brand' => $request->brand,
             'description' => $request->description,
             'original_price' => $request->original_price,
-            'qty' => $request->qty,
-            'featured' => $request->featured == true ? '1':'0',
-            'popular' => $request->popular == true ? '1':'0',
-            'status' => $request->status == true ? '1':'0'
+            'quantity' => $request->quantity
+            // 'featured' => $request->featured == true ? 1:0,
+            // 'popular' => $request->popular == true ? 1:0,
+            // 'status' => $request->status == true ? 1:0
         ];
+
+     
         
         if($request->hasFile('image')){
             $file = $request->file('image');
