@@ -119,7 +119,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'category_id' => 'bail|required',
+            'category' => 'bail|required',
             'slug' => 'bail|required|max:191',
             'name' => 'bail|required|max:191',
             'meta_title' => 'bail|required|max:191',
@@ -127,7 +127,7 @@ class ProductController extends Controller
             'selling_price' => 'bail|required|max:20',
             'original_price' => 'bail|required|max:20',
             'quantity' => 'bail|required|max:4',
-            'image' => 'bail|required|image|mimes:jpeg|png|jpg|max:2048',
+            // 'image' => 'bail|required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -139,7 +139,7 @@ class ProductController extends Controller
         }
 
         $data = [
-            'category_id' => $request->category_id,
+            'category_id' => $request->category,
             'slug' => $request->slug,
             'name' => $request->name,
             'meta_title' => $request->meta_title,
@@ -148,14 +148,13 @@ class ProductController extends Controller
             'brand' => $request->brand,
             'description' => $request->description,
             'original_price' => $request->original_price,
-            'quantity' => $request->quantity
-            // 'featured' => $request->featured == true ? 1:0,
-            // 'popular' => $request->popular == true ? 1:0,
-            // 'status' => $request->status == true ? 1:0
+            'quantity' => $request->quantity,
+            'selling_price' => $request->selling_price,
+            'featured' => $request->featured,
+            'popular' => $request->popular,
+            'status' => $request->status
         ];
 
-     
-        
         if($request->hasFile('image')){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -164,7 +163,6 @@ class ProductController extends Controller
 
             $data['image'] = 'uploads/images/product/'.$filename;
         }
-
         try {
             $response = $this->productRepository->update($id, $data);
 
