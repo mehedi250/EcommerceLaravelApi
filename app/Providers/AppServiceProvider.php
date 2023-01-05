@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Service\CategoryContact;
+use App\Interfaces\Service\ProductContact;
+use App\Services\CategoryService;
+use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(CategoryContact::class , CategoryService::class);
+        $this->app->bind(ProductContact::class , ProductService::class);
     }
 
     /**
@@ -23,6 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        
     }
 }
