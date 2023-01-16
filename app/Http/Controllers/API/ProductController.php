@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Repository\ProductRepository;
+use App\Interfaces\Service\ProductContact;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,42 +12,22 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     private $productRepository;
+    private $productService;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, ProductContact $productService)
     {
         $this->productRepository = $productRepository;
+        $this->productService = $productService;
     }
 
     public function index()
     {
-        $response = $this->productRepository->getAll();
-
-        if($response){
-            return response()->json([
-                'data' => $response,
-                'success' => true,
-                'status' => 'success'
-            ]);
-        }
+        return response()->json($this->productService->getAll());
     }
 
     public function find(Request $request)
     {
-        $response = $this->productRepository->getById($request->id);
-
-        if($response){
-            return response()->json([
-                'data' => $response,
-                'success' => true,
-                'status' => 'success'
-            ]);
-        }else{
-            return response()->json([
-                'data' => null,
-                'success' => true,
-                'status' => 'error'
-            ]);
-        }
+        return response()->json($this->productService->findDataById($request->id));
     }
 
     public function store(Request $request)
@@ -97,22 +78,7 @@ class ProductController extends Controller
             $data['image'] = 'uploads/images/product/'.$filename;
         }
 
-        try {
-            $response = $this->productRepository->insert($data);
-
-            if($response){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Product Insert Successfuly',
-                    'status' => 'success'
-                ]);
-            }
-        }catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-                'status' => false
-            ]);
-        }
+        return response()->json($this->productService->saveProduct($data));
 
     }
 
@@ -163,22 +129,9 @@ class ProductController extends Controller
 
             $data['image'] = 'uploads/images/product/'.$filename;
         }
-        try {
-            $response = $this->productRepository->update($id, $data);
+        
+        return response()->json($this->productService->updateProduct($data, $id));
 
-            if($response){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Product Update Successfuly',
-                    'status' => 'success'
-                ]);
-            }
-        }catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-                'status' => false
-            ]);
-        }
     }
 
     public function destroy($id)
@@ -188,7 +141,7 @@ class ProductController extends Controller
             if($response){
                 return response()->json([
                     'success' => true,
-                    'message' => 'Product Deleted Successfuly',
+                    'message' => 'Product Deleted Successfully',
                     'status' => 'success'
                 ]);
             }

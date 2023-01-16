@@ -49,38 +49,15 @@ class CategoryService implements CategoryContact{
         }
     }
 
-    public function saveCategory($request)
+    public function saveCategory($data)
     {
-        $validator = Validator::make($request->all(), [
-            'slug' => 'bail|required|max:191',
-            'name' => 'bail|required|max:191',
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'success' => false,
-                'errors' => $validator->messages(),
-                'status' => 'validation-error'
-            ];
-        }
-
-        $data = [
-            'slug' => $request->slug,
-            'name' => $request->name,
-            'description' => $request->description,
-            'meta_title' => $request->meta_title,
-            'meta_keywords' => $request->meta_keywords,
-            'meta_description' => $request->meta_description,
-            'status' => $request->status == true ? '1':'0'
-        ];
-
         try {
             $response = $this->categoryRepository->insert($data);
 
             if($response){
                 return [
                     'success' => true,
-                    'message' => 'Category Insert Successfuly',
+                    'message' => 'Category Insert Successfully',
                     'status' => 'success'
                 ];
             }
@@ -93,39 +70,15 @@ class CategoryService implements CategoryContact{
 
     }
 
-    public function updateCategory($request, $id)
+    public function updateCategory($data, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'slug' => 'bail|required|max:191',
-            'name' => 'bail|required|max:191',
-
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'success' => false,
-                'errors' => $validator->messages(),
-                'status' => 'validation-error'
-            ];
-        }
-
-        $data = [
-            'slug' => $request->slug,
-            'name' => $request->name,
-            'description' => $request->description,
-            'meta_title' => $request->meta_title,
-            'meta_keywords' => $request->meta_keywords,
-            'meta_description' => $request->meta_description,
-            'status' => $request->status == true ? '1':'0'
-        ];
-
         try {
             $response = $this->categoryRepository->update($id, $data);
 
             if($response){
                 return [
                     'success' => true,
-                    'message' => 'Category Update Successfuly',
+                    'message' => 'Category Update Successfully',
                     'status' => 'success'
                 ];
             }
@@ -135,6 +88,37 @@ class CategoryService implements CategoryContact{
                 'status' => false
             ];
         }
+    }
+
+    public function deleteCategory($id)
+    {
+        try {
+            $response = $this->categoryRepository->delete($id);
+
+            if($response){
+                return [
+                    'success' => true,
+                    'message' => 'Category Deleted Successfully',
+                    'status' => 'success'
+                ];
+            }
+        }catch (\Throwable $th) {
+            return [
+                'message' => 'Something went wrong!',
+                'status' => false
+            ];
+        }
+    }
+
+    public function getCategoryForDropdown()
+    {
+        $response = $this->categoryRepository->getByWhere(['id', 'name'], [['status', Category::STATUS_ACTIVE]]);
+
+        return [
+            'data' => $response,
+            'success' => true,
+            'status' => 'success'
+        ];
     }
 
 

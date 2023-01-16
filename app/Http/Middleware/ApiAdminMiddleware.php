@@ -22,7 +22,7 @@ class ApiAdminMiddleware
                 return $next($request);
             }else{
                 return response()->json([
-                    'message' => 'Access Denied ! As you are not a admin.',
+                    'message' => 'Access Denied ! As you are not an admin.',
                     'status' => 403
                 ],403);
             }
