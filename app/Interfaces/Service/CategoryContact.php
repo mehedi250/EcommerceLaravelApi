@@ -9,8 +9,12 @@ interface CategoryContact
 
     public function findDataById($id);
 
-    public function saveCategory($request);
+    public function saveCategory($data);
 
-    public function updateCategory($request, $id);
+    public function updateCategory($data, $id);
+
+    public function deleteCategory($id);
+
+    public function getCategoryForDropdown();
 
 }

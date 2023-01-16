@@ -3,20 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Interfaces\Repository\CategoryRepository;
 use App\Interfaces\Service\CategoryContact;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    private $categoryRepository;
     private $categoryService;
 
-    public function __construct(CategoryRepository $categoryRepository, CategoryContact $categoryService)
+    public function __construct(CategoryContact $categoryService)
     {
-        $this->categoryRepository = $categoryRepository;
         $this->categoryService = $categoryService;
     }
 
@@ -32,44 +28,67 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        return response()->json($this->categoryService->saveCategory($request));
+        $validator = Validator::make($request->all(), [
+            'slug' => 'bail|required|max:191',
+            'name' => 'bail|required|max:191',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->messages(),
+                'status' => 'validation-error'
+            ]);
+        }
+
+        $data = [
+            'slug' => $request->slug,
+            'name' => $request->name,
+            'description' => $request->description,
+            'meta_title' => $request->meta_title,
+            'meta_keywords' => $request->meta_keywords,
+            'meta_description' => $request->meta_description,
+            'status' => $request->status == true ? '1':'0'
+        ];
+        return response()->json($this->categoryService->saveCategory($data));
     }
 
     public function update(Request $request, $id)
     {
-        return response()->json($this->categoryService->updateCategory($request, $id));
-    }
+        $validator = Validator::make($request->all(), [
+            'slug' => 'bail|required|max:191',
+            'name' => 'bail|required|max:191',
 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->messages(),
+                'status' => 'validation-error'
+            ]);
+        }
+
+        $data = [
+            'slug' => $request->slug,
+            'name' => $request->name,
+            'description' => $request->description,
+            'meta_title' => $request->meta_title,
+            'meta_keywords' => $request->meta_keywords,
+            'meta_description' => $request->meta_description,
+            'status' => $request->status == true ? '1':'0'
+        ];
+
+        return response()->json($this->categoryService->updateCategory($data, $id));
+    }
 
     public function destroy($id)
     {
-        try {
-            $response = $this->categoryRepository->delete($id);
-            if($response){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Category Deleted Successfuly',
-                    'status' => 'success'
-                ]);
-            }
-        }catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-                'status' => false
-            ]);
-        }
+        return response()->json($this->categoryService->deleteCategory($id));
     }
 
     public function getCategoryForDropdown()
     {
-        $response = $this->categoryRepository->getByWhere(['id', 'name'], [['status', Category::STATUS_ACTIVE]]);
-
-        return response()->json([
-            'data' => $response,
-            'success' => true,
-            'status' => 'success'
-        ]);
-     
-
+        return response()->json($this->categoryService->getCategoryForDropdown());
     }
 }
