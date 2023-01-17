@@ -31,7 +31,7 @@ class ProductRepositoryEloquent implements ProductRepository{
         return Product::where('id', $id)->first();
     }
 
-    public function delete($id)
+    public function deleteById($id)
     {
         return Product::where('id', $id)->delete();
     }

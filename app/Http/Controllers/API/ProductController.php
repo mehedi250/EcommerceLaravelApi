@@ -136,20 +136,6 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        try {
-            $response = $this->productRepository->delete($id);
-            if($response){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Product Deleted Successfully',
-                    'status' => 'success'
-                ]);
-            }
-        }catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Something went wrong!',
-                'status' => false
-            ]);
-        }
+        return response()->json($this->productService->deleteProduct($id));
     }
 }
