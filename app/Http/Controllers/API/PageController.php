@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\Repository\CategoryRepository;
 use App\Interfaces\Repository\ProductRepository;
 use App\Interfaces\Repository\UserRepository;
+use App\Interfaces\Service\CategoryContact;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,15 +17,18 @@ class PageController extends Controller
     private $categoryRepository;
     private $productRepository;
     private $userRepository;
+    private $categoryService;
 
     public function __construct(CategoryRepository $categoryRepository,
                                 ProductRepository $productRepository,
-                                UserRepository $userRepository
+                                UserRepository $userRepository,
+                                CategoryContact $categoryService
     )
     {
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
         $this->userRepository = $userRepository;
+        $this->categoryService = $categoryService;
     }
 
     public function dashboardData()
@@ -39,6 +43,8 @@ class PageController extends Controller
             'status' => 'success'
         ]);
     }
+
+    
 
 
 }

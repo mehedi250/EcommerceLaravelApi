@@ -17,4 +17,6 @@ interface CategoryContact
 
     public function getCategoryForDropdown();
 
+    public function getCategoryByWhere($where, $column=['*']);
+
 }

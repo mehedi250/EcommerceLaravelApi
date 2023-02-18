@@ -39,3 +39,11 @@ Route::middleware(['auth:sanctum'])->group( function(){
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+//user api route
+Route::group([ 'namespace' => 'App\Http\Controllers\API'], function(){
+    Route::post('get-active-categories', 'CategoryController@getActiveCategory');
+
+
+});

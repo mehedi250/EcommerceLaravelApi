@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\Service\CategoryContact;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -91,4 +92,11 @@ class CategoryController extends Controller
     {
         return response()->json($this->categoryService->getCategoryForDropdown());
     }
+
+    public function getActiveCategory()
+    {
+        return response()->json($this->categoryService->getCategoryByWhere([['status', Category::STATUS_ACTIVE]], ['id', 'name', 'slug']));
+    }
+
+
 }

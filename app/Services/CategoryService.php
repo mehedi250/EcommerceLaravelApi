@@ -121,5 +121,16 @@ class CategoryService implements CategoryContact{
         ];
     }
 
+    public function getCategoryByWhere($where, $column=['*'])
+    {
+        $response = $this->categoryRepository->getByWhere($column, $where);
+
+        return [
+            'data' => $response,
+            'success' => true,
+            'status' => 'success'
+        ];
+    }
+
 
 }
