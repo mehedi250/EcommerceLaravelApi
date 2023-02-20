@@ -41,4 +41,9 @@ class CategoryRepositoryEloquent implements CategoryRepository{
         return Category::select($column)->where($where)->get();
     }
 
+    public function getCategoryByWhere($where, $column=['*'])
+    {
+        return Category::select($column)->where($where)->first();
+    }
+
 }

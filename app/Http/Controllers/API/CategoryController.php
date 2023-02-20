@@ -95,7 +95,7 @@ class CategoryController extends Controller
 
     public function getActiveCategory()
     {
-        return response()->json($this->categoryService->getCategoryByWhere([['status', Category::STATUS_ACTIVE]], ['id', 'name', 'slug']));
+        return response()->json($this->categoryService->getCategoryByWhere([['status', Category::STATUS_ACTIVE]], ['id', 'name', 'slug', 'description']));
     }
 
 

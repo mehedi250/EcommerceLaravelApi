@@ -11,12 +11,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    private $productRepository;
     private $productService;
 
-    public function __construct(ProductRepository $productRepository, ProductContact $productService)
+    public function __construct(ProductContact $productService)
     {
-        $this->productRepository = $productRepository;
         $this->productService = $productService;
     }
 
@@ -137,7 +135,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $response = $this->productRepository->delete($id);
+            $response = $this->productService->deleteProduct($id);
             if($response){
                 return response()->json([
                     'success' => true,
@@ -151,5 +149,12 @@ class ProductController extends Controller
                 'status' => false
             ]);
         }
+    }
+
+    public function getProductsByCategorySlug(Request $request, $slug)
+    {
+       
+        return response()->json($this->productService->getProductsByCategorySlug($request, $slug));
+           
     }
 }

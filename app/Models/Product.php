@@ -9,6 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+    
     protected $fillable = [
         'category_id',
         'meta_title',

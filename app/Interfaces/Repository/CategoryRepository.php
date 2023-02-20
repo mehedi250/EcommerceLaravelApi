@@ -18,4 +18,7 @@ interface CategoryRepository
     public function delete($id);
 
     public function getByWhere($column=['*'], $where);
+
+    public function getCategoryByWhere($where, $column=['*']);
+    
 }

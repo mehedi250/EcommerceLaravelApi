@@ -15,4 +15,6 @@ interface ProductContact
 
     public function deleteProduct($id);
 
+    public function getProductsByCategorySlug($request, $slug);
+
 }
