@@ -118,7 +118,7 @@ class ProductService implements ProductContact{
         }
     }
 
-    public function getProductsByCategorySlug($request, $slug)
+    public function getProductsByCategorySlug($slug)
     {
         try {
             $where = [['slug', $slug], ['status', Category::STATUS_ACTIVE]];
@@ -131,6 +131,7 @@ class ProductService implements ProductContact{
                     return [
                         'success' => true,
                         'data' => $data,
+                        'name' => $response->name,
                         'status' => 'success'
                     ];
                 }
