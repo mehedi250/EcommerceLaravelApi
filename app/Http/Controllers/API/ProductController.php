@@ -151,10 +151,8 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductsByCategorySlug(Request $request, $slug)
+    public function getProductsByCategorySlug(Request $request)
     {
-       
-        return response()->json($this->productService->getProductsByCategorySlug($request, $slug));
-           
+        return response()->json($this->productService->getProductsByCategorySlug($request->slug));
     }
 }
