@@ -152,6 +152,31 @@ class ProductService implements ProductContact{
 
     }
 
+    public function getProductDetails($slug)
+    {
+        try {
+            $where = [['slug', $slug], ['status', Product::STATUS_ACTIVE]];
+            $response = $this->productRepository->getProductByWhere($where, ['id', 'name']);
+            if(!empty($response)){
+                return [
+                    'success' => true,
+                    'data' => $data,
+                    'status' => 'success'
+                ];
+            }
+            return [
+                'data' => null,
+                'successs' => true,
+                'status' => 'error'
+            ];
+        }catch (\Throwable $th) {
+            return [
+                'data' => null,
+                'success' => true,
+                'status' => 'error'
+            ];
+        }
+    }
 
 
 }
