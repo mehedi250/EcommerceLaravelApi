@@ -17,4 +17,6 @@ interface ProductContact
 
     public function getProductsByCategorySlug($slug);
 
+    public function getProductDetails($slug);
+
 }
