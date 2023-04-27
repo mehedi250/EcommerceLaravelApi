@@ -161,3 +161,4 @@ class ProductController extends Controller
         return response()->json($this->productService->getProductBySlug($request->slug));
     }
 }
+
