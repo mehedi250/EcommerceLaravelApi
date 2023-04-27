@@ -125,7 +125,7 @@ class ProductService implements ProductContact{
             $response = $this->categoryRepository->getCategoryByWhere($where, ['id', 'name']);
             if(!empty($response)){
                 $logic = [['status', Product::STATUS_ACTIVE], ['category_id', $response->id]];
-                $data = $this->productRepository->getProductsByWhere($logic, ['*']);
+                $data = $this->productRepository->getProductsByWhere($logic, ['id', 'name', 'slug', 'image']);
 
                 if($data){
                     return [
@@ -152,31 +152,34 @@ class ProductService implements ProductContact{
 
     }
 
-    public function getProductDetails($slug)
+    public function getProductBySlug($slug)
     {
         try {
-            $where = [['slug', $slug], ['status', Product::STATUS_ACTIVE]];
-            $response = $this->productRepository->getProductByWhere($where, ['id', 'name']);
-            if(!empty($response)){
+            $logic = [['slug', $slug]];
+            $data = $this->productRepository->getProductByWhere($logic, ['*']);
+
+            if($data){
                 return [
-                    'success' => true,
                     'data' => $data,
                     'status' => 'success'
                 ];
             }
+            
             return [
-                'data' => null,
-                'successs' => true,
-                'status' => 'error'
-            ];
-        }catch (\Throwable $th) {
-            return [
-                'data' => null,
+                'data' => [],
                 'success' => true,
                 'status' => 'error'
             ];
+            
+        }catch (\Throwable $th) {
+            return [
+                'data' => [],
+                'status' => 'error'
+            ];
         }
+
     }
+
 
 
 }

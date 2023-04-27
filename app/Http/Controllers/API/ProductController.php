@@ -156,8 +156,9 @@ class ProductController extends Controller
         return response()->json($this->productService->getProductsByCategorySlug($request->slug));
     }
 
-    public function getProductDetails(Request $request)
+    public function getProductBySlug(Request $request)
     {
-        return response()->json($this->productService->getProductDetails($request->slug));
+        return response()->json($this->productService->getProductBySlug($request->slug));
     }
-} 
+}
+

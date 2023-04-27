@@ -45,5 +45,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group([ 'namespace' => 'App\Http\Controllers\API'], function(){
     Route::post('get-active-categories', 'CategoryController@getActiveCategory');
     Route::post('get-category-products', 'ProductController@getProductsByCategorySlug');
+    Route::post('get-product-data', 'ProductController@getProductBySlug');
 
 });
