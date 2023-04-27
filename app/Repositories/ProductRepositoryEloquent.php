@@ -41,4 +41,9 @@ class ProductRepositoryEloquent implements ProductRepository{
         return Product::where($where)->select($column)->get();
     }
 
+    public function getProductByWhere($where, $column=['*'])
+    {
+        return Product::where($where)->select($column)->first();
+    }
+
 }

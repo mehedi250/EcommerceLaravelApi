@@ -18,4 +18,6 @@ interface ProductRepository
     public function deleteById($id);
 
     public function getProductsByWhere($where, $column=['*']);
+
+    public function getProductByWhere($where, $column=['*']);
 }
