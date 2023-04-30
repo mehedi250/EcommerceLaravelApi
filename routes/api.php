@@ -48,3 +48,11 @@ Route::group([ 'namespace' => 'App\Http\Controllers\API'], function(){
     Route::post('get-product-data', 'ProductController@getProductBySlug');
 
 });
+
+Route::middleware(['auth:sanctum', 'ability:server:user'])->group( function(){
+    Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\API'], function(){
+        Route::post('/add-to-cart', 'CartController@insertCart');
+
+
+    });
+});
