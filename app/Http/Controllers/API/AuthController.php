@@ -33,7 +33,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
         // $token = $user->createToken($user->email . '_token')->plainTextToken;
-        $token = $user->createToken($user->email . '_token', [''])->plainTextToken;
+        $token = $user->createToken($user->email . '_token', ['server:user'])->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -74,7 +74,7 @@ class AuthController extends Controller
             $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;
         }else{
             $role = '';
-            $token = $user->createToken($user->email . '_token', [''])->plainTextToken;
+            $token = $user->createToken($user->email . '_token', ['server:user'])->plainTextToken;
         }
         
 
