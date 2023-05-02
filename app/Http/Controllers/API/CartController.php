@@ -43,10 +43,11 @@ class CartController extends Controller
         }
 
         $data = [
+            'user_id' => auth('sanctum')->user()->id,
             'product_id' => $request->product_id,
             'product_quantity' => $request->product_quantity
         ];
-        return response()->json($this->cartService->insertCart($data));
+        return response()->json($this->cartService->insertToCart($data));
     }
 
     public function update(Request $request, $id)

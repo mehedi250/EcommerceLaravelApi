@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category' => 'bail|required',
-            'slug' => 'bail|required|max:191',
+            'slug' => 'bail|required|unique:products|max:191',
             'name' => 'bail|required|max:191',
             'meta_title' => 'bail|required|max:191',
             'brand' => 'bail|required|max:20',
@@ -84,7 +84,7 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category' => 'bail|required',
-            'slug' => 'bail|required|max:191',
+            'slug' => 'bail|required|max:191|unique:products,slug,'.$id,
             'name' => 'bail|required|max:191',
             'meta_title' => 'bail|required|max:191',
             'brand' => 'bail|required|max:20',

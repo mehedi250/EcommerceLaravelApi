@@ -42,7 +42,7 @@ class CartRepositoryEloquent implements CartRepository{
         return Cart::select($column)->where($where)->get();
     }
 
-    public function getCategoryByWhere($where, $column=['*'])
+    public function getCartByWhere($where, $column=['*'])
     {
         return Cart::select($column)->where($where)->first();
     }

@@ -49,7 +49,7 @@ Route::group([ 'namespace' => 'App\Http\Controllers\API'], function(){
 
 });
 
-Route::middleware(['auth:sanctum', 'ability:server:user'])->group( function(){
+Route::middleware(['auth:sanctum', 'ability:server:user,server:admin'])->group( function(){
     Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\API'], function(){
         Route::post('/add-to-cart', 'CartController@insertCart');
 

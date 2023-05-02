@@ -49,16 +49,30 @@ class CartService implements CartContact{
         }
     }
 
-    public function insertCart($data)
+    public function insertToCart($data)
     {
         try {
-            $response = $this->cartRepository->insertCart($data);
+            $where = [
+                ['user_id', $data['user_id']],
+                ['product_id', $data['product_id']]
+            ];
+            $responseCart = $this->cartRepository->getCartByWhere($where, ['id']);
 
-            if($response){
+            if(empty($responseCart)){
+                $response = $this->cartRepository->insertCart($data);
+
+                if($response){
+                    return [
+                        'success' => true,
+                        'message' => 'Added to Cart',
+                        'status' => 'success'
+                    ];
+                }    
+            }else{
                 return [
                     'success' => true,
-                    'message' => 'Category Insert Successfully',
-                    'status' => 'success'
+                    'message' => 'Already Added to Cart',
+                    'status' => 'warning'
                 ];
             }
         }catch (\Throwable $th) {
@@ -67,7 +81,6 @@ class CartService implements CartContact{
                 'status' => false
             ];
         }
-
     }
 
     public function updateCategory($data, $id)
@@ -121,9 +134,9 @@ class CartService implements CartContact{
         ];
     }
 
-    public function getCategoryByWhere($where, $column=['*'])
+    public function getCartByWhere($where, $column=['*'])
     {
-        $response = $this->cartRepository->getByWhere($column, $where);
+        $response = $this->cartRepository->getCartByWhere($where, $column);
 
         return [
             'data' => $response,
