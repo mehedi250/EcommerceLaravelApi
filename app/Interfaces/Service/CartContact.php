@@ -9,7 +9,7 @@ interface CartContact
 
     public function findDataById($id);
 
-    public function insertCart($data);
+    public function insertToCart($data);
 
     public function updateCategory($data, $id);
 
@@ -17,6 +17,6 @@ interface CartContact
 
     public function getCategoryForDropdown();
 
-    public function getCategoryByWhere($where, $column=['*']);
+    public function getCartByWhere($where, $column=['*']);
 
 }

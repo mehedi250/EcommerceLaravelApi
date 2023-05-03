@@ -19,6 +19,6 @@ interface CartRepository
 
     public function getByWhere($column=['*'], $where);
 
-    public function getCategoryByWhere($where, $column=['*']);
+    public function getCartByWhere($where, $column=['*']);
     
 }
